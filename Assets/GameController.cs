@@ -215,37 +215,28 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileWhite")
         };
-        for (int y = 0; y < 8; ++y) {
-            for (int x = 0; x < 8; ++x) {
-                GameObject copied = Object.Instantiate(originals[mTileMapAA[y, x]]) as GameObject;
-                copied.transform.Translate(y * 10 - 40, 0, x * 10 - 40);
-                copied.SetActive(true);
+        int[][] offsets = new int[4][] {
+            new int[] { -40, -40 },
+            new int[] { -40,  40 },
+            new int[] {  40, -40 },
+            new int[] {  40,  40 }
+        };
+        int[][,] maps = new int[4][,] {
+            mTileMapAA,
+            mTileMapAB,
+            mTileMapAC,
+            mTileMapAD
+        };
+        for (int i = 0; i < 4; ++i) {
+            for (int y = 0; y < 8; ++y) {
+                for (int x = 0; x < 8; ++x) {
+                    GameObject copied = Object.Instantiate(originals[maps[i][y, x]]) as GameObject;
+                    copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1]);
+                    copied.SetActive(true);
+                }
             }
         }
-        for (int y = 0; y < 8; ++y) {
-            for (int x = 0; x < 8; ++x)
-            {
-                GameObject copied = Object.Instantiate(originals[mTileMapAB[y, x]]) as GameObject;
-                copied.transform.Translate(y * 10 - 40, 0, x * 10 + 40);
-                copied.SetActive(true);
-            }
-        }
-        for (int y = 0; y < 8; ++y) {
-            for (int x = 0; x < 8; ++x)
-            {
-                GameObject copied = Object.Instantiate(originals[mTileMapAC[y, x]]) as GameObject;
-                copied.transform.Translate(y * 10 + 40, 0, x * 10 - 40);
-                copied.SetActive(true);
-            }
-        }
-        for (int y = 0; y < 8; ++y) {
-            for (int x = 0; x < 8; ++x)
-            {
-                GameObject copied = Object.Instantiate(originals[mTileMapAD[y, x]]) as GameObject;
-                copied.transform.Translate(y * 10 + 40, 0, x * 10 + 40);
-                copied.SetActive(true);
-            }
-        }
+
         for (int i = 0; i < originals.Length; ++i) {
             originals[i].SetActive(false);
         }
