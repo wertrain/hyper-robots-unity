@@ -117,8 +117,8 @@ public class GameController : MonoBehaviour {
         {   N, T|R,   L,   N,   N,   B,   N,   N },
         {   N,   N,   N,   N,   R, T|L,   N,   N },
         {   N,   N, B|R,   L,   N,   N,   N, B|R },
-        {   B,   N,   T,   N,   N,   N,   N,   T },
-        {   T,   N,   N,   N,   N,   N,   N,   N },
+        {   B,   N,   T,   N,   N,   N,   N, T|B },
+        {   T,   N,   N,   N,   N,   N,   R, T|L },
     };
     private int[,] mTileWallAB = {
         {   N,   R,   L,   N,   N,   B,   N,   N },
@@ -127,12 +127,12 @@ public class GameController : MonoBehaviour {
         {   R, T|L,   N,   N,   N,   N,   N,   N },
         {   N,   N,   N,   N,   N,   N,   N,   B },
         {   N,   N,   N,   N,   N,   N,   N,   T },
-        {   N,   N, B|R,   L,   N,   R, B|L,   N },
-        {   N,   N,   T,   N,   N,   N,   T,   N },
+        {   B,   N, B|R,   L,   N,   R, B|L,   N },
+        { T|R,   L,   T,   N,   N,   N,   T,   N },
     };
     private int[,] mTileWallAC = {
-        {   N,   N,   N,   N,   N,   N,   N,   N },
-        {   N,   N,   N, B|R,   L,   N,   N,   N },
+        {   N,   N,   N,   N,   N,   N,   R, B|L },
+        {   N,   N,   N, B|R,   L,   N,   N,   T },
         {   B,   N,   N,   T,   N,   B,   N,   N },
         {   T,   N,   N,   N,   R, T|L,   N,   N },
         {   N,   N,   N,   N,   N,   N,   N,   N },
@@ -141,8 +141,8 @@ public class GameController : MonoBehaviour {
         {   N,   N,   N,   N,   R,   L,   N,   N },
     };
     private int[,] mTileWallAD = {
-        {   N,   N,   N,   N,   N,   N,   N,   N },
-        {   B,   N,   N,   N,   N,   N, B|R,   L },
+        { B|R,   L,   N,   N,   N,   N,   N,   N },
+        { T|B,   N,   N,   N,   N,   N, B|R,   L },
         { T|R,   L,   N,   N,   N,   N,   T,   B },
         {   N,   N,   N,   N,   R, B|L,   N,   T },
         {   N,   N,   B,   N,   N,   T,   N,   N },
@@ -194,6 +194,11 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        createTiles();
+        createWalls();
+    }
+
+    private bool createTiles() {
         GameObject[] originals = {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileRedSun"),
@@ -227,9 +232,12 @@ public class GameController : MonoBehaviour {
             mTileMapAC,
             mTileMapAD
         };
-        for (int i = 0; i < 4; ++i) {
-            for (int y = 0; y < 8; ++y) {
-                for (int x = 0; x < 8; ++x) {
+        for (int i = 0; i < 4; ++i)
+        {
+            for (int y = 0; y < 8; ++y)
+            {
+                for (int x = 0; x < 8; ++x)
+                {
                     GameObject copied = Object.Instantiate(originals[maps[i][y, x]]) as GameObject;
                     copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1]);
                     copied.SetActive(true);
@@ -237,9 +245,67 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < originals.Length; ++i) {
+        for (int i = 0; i < originals.Length; ++i)
+        {
             originals[i].SetActive(false);
         }
+        return true;
+    }
+
+    private bool createWalls() {
+        GameObject original = GameObject.Find("Wall");
+        int[][] offsets = new int[4][] {
+            new int[] { -75, -75 },
+            new int[] { -75,   5 },
+            new int[] {   5, -75 },
+            new int[] {   5,   5 }
+        };
+        int[][,] maps = new int[4][,] {
+            mTileWallAA,
+            mTileWallAB,
+            mTileWallAC,
+            mTileWallAD
+        };
+        for (int i = 0; i < 4; ++i)
+        {
+            for (int y = 0; y < 8; ++y)
+            {
+                for (int x = 0; x < 8; ++x)
+                {
+                    if (maps[i][y, x] > N) {
+                        
+                        if ((maps[i][y, x] & B) > 0) {
+                            GameObject copied = Object.Instantiate(original) as GameObject;
+                            copied.transform.Translate(y * 10 + offsets[i][0] + 5, 0, x * 10 + offsets[i][1]);
+                            copied.transform.Rotate(0, 90, 0);
+                            copied.SetActive(true);
+                        }
+                        if ((maps[i][y, x] & T) > 0)
+                        {
+                            GameObject copied = Object.Instantiate(original) as GameObject;
+                            copied.transform.Translate(y * 10 + offsets[i][0] - 5, 0, x * 10 + offsets[i][1]);
+                            copied.transform.Rotate(0, 90, 0);
+                            copied.SetActive(true);
+                        }
+                        if ((maps[i][y, x] & L) > 0)
+                        {
+                            GameObject copied = Object.Instantiate(original) as GameObject;
+                            copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1] - 5);
+                            copied.SetActive(true);
+                        }
+                        if ((maps[i][y, x] & R) > 0)
+                        {
+                            GameObject copied = Object.Instantiate(original) as GameObject;
+                            copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1] + 5);
+                            copied.SetActive(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        original.SetActive(false);
+        return true;
     }
 	
 	// Update is called once per frame
