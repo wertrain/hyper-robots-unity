@@ -216,10 +216,10 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TileWhite")
         };
         int[][] offsets = new int[4][] {
-            new int[] { -40, -40 },
-            new int[] { -40,  40 },
-            new int[] {  40, -40 },
-            new int[] {  40,  40 }
+            new int[] { -75, -75 },
+            new int[] { -75,   5 },
+            new int[] {   5, -75 },
+            new int[] {   5,   5 }
         };
         int[][,] maps = new int[4][,] {
             mTileMapAA,
