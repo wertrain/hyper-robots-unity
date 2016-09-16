@@ -213,7 +213,7 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TileGreenSaturn"),
             GameObject.Find("TileGreenStar"),
             GameObject.Find("TileWhite"),
-            GameObject.Find("TileWhite")
+            GameObject.Find("TileUnused")
         };
         int[][] offsets = new int[4][] {
             new int[] { -75, -75 },
