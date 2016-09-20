@@ -194,11 +194,29 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        createTiles();
-        createWalls();
+        int[][] offsets = new int[4][] {
+            new int[] { -75, -75 },
+            new int[] { -75,   5 },
+            new int[] {   5, -75 },
+            new int[] {   5,   5 }
+        };
+        int[][,] tmaps = new int[4][,] {
+            mTileMapAA,
+            mTileMapAB,
+            mTileMapAC,
+            mTileMapAD
+        };
+        createTiles(tmaps, offsets);
+        int[][,] wmaps = new int[4][,] {
+            mTileWallAA,
+            mTileWallAB,
+            mTileWallAC,
+            mTileWallAD
+        };
+        createWalls(wmaps, offsets);
     }
 
-    private bool createTiles() {
+    private bool createTiles(int[][,] maps, int[][] offsets) {
         GameObject[] originals = {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileRedSun"),
@@ -220,18 +238,6 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileUnused")
         };
-        int[][] offsets = new int[4][] {
-            new int[] { -75, -75 },
-            new int[] { -75,   5 },
-            new int[] {   5, -75 },
-            new int[] {   5,   5 }
-        };
-        int[][,] maps = new int[4][,] {
-            mTileMapAA,
-            mTileMapAB,
-            mTileMapAC,
-            mTileMapAD
-        };
         for (int i = 0; i < 4; ++i)
         {
             for (int y = 0; y < 8; ++y)
@@ -252,20 +258,8 @@ public class GameController : MonoBehaviour {
         return true;
     }
 
-    private bool createWalls() {
+    private bool createWalls(int[][,] maps, int[][] offsets) {
         GameObject original = GameObject.Find("Wall");
-        int[][] offsets = new int[4][] {
-            new int[] { -75, -75 },
-            new int[] { -75,   5 },
-            new int[] {   5, -75 },
-            new int[] {   5,   5 }
-        };
-        int[][,] maps = new int[4][,] {
-            mTileWallAA,
-            mTileWallAB,
-            mTileWallAC,
-            mTileWallAD
-        };
         for (int i = 0; i < 4; ++i)
         {
             for (int y = 0; y < 8; ++y)
