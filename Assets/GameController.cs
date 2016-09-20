@@ -238,12 +238,9 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileUnused")
         };
-        for (int i = 0; i < 4; ++i)
-        {
-            for (int y = 0; y < 8; ++y)
-            {
-                for (int x = 0; x < 8; ++x)
-                {
+        for (int i = 0; i < 4; ++i) {
+            for (int y = 0; y < 8; ++y) {
+                for (int x = 0; x < 8; ++x) {
                     GameObject copied = Object.Instantiate(originals[maps[i][y, x]]) as GameObject;
                     copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1]);
                     copied.SetActive(true);
@@ -260,35 +257,28 @@ public class GameController : MonoBehaviour {
 
     private bool createWalls(int[][,] maps, int[][] offsets) {
         GameObject original = GameObject.Find("Wall");
-        for (int i = 0; i < 4; ++i)
-        {
-            for (int y = 0; y < 8; ++y)
-            {
-                for (int x = 0; x < 8; ++x)
-                {
-                    if (maps[i][y, x] > N) {
-                        
+        for (int i = 0; i < 4; ++i) {
+            for (int y = 0; y < 8; ++y) {
+                for (int x = 0; x < 8; ++x) {
+                    if (maps[i][y, x] > N) {                        
                         if ((maps[i][y, x] & B) > 0) {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0] + 5, 0, x * 10 + offsets[i][1]);
                             copied.transform.Rotate(0, 90, 0);
                             copied.SetActive(true);
                         }
-                        if ((maps[i][y, x] & T) > 0)
-                        {
+                        if ((maps[i][y, x] & T) > 0) {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0] - 5, 0, x * 10 + offsets[i][1]);
                             copied.transform.Rotate(0, 90, 0);
                             copied.SetActive(true);
                         }
-                        if ((maps[i][y, x] & L) > 0)
-                        {
+                        if ((maps[i][y, x] & L) > 0) {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1] - 5);
                             copied.SetActive(true);
                         }
-                        if ((maps[i][y, x] & R) > 0)
-                        {
+                        if ((maps[i][y, x] & R) > 0) {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1] + 5);
                             copied.SetActive(true);
