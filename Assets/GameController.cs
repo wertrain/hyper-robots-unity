@@ -291,6 +291,31 @@ public class GameController : MonoBehaviour {
         original.SetActive(false);
         return true;
     }
+
+    private class Point {
+        private int x;
+        private int y;
+
+        public Point() {
+            this.x = 0;
+            this.y = 0;
+        }
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+        public int X {
+            get { return this.x; }
+            set { this.x = value; }
+        }
+        public int Y {
+            get { return this.y; }
+            set { this.y = value; }
+        }
+    };
+    private Point[] searchRoute(int[][,] maps, int[][,] walls, int[,] robots) {
+        return null;
+    }
 	
 	// Update is called once per frame
 	void Update () {
