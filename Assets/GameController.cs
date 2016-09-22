@@ -194,6 +194,14 @@ public class GameController : MonoBehaviour {
         {   N,   N,   N,   N,   N,   N,   N,   N },
     };
 
+    private enum RobotColor {
+        Red = 0,
+        Blue,
+        Yellow,
+        Green,
+        Max
+    };
+
     // Use this for initialization
     void Start () {
         int[][] offsets = new int[4][] {
@@ -250,11 +258,28 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < originals.Length; ++i)
-        {
+        for (int i = 0; i < originals.Length; ++i) {
             originals[i].SetActive(false);
         }
 
+        System.Random random = new System.Random();
+        int[,] robots = new int[FIELD_SIZE, FIELD_SIZE];
+        for (int y = 0; y < FIELD_SIZE; ++y) {
+            for (int x = 0; x < FIELD_SIZE; ++x) {
+                robots[y, x] = 0;
+            }
+        }
+        const int robotNum = (int)RobotColor.Max;
+        for (int i = 0; i < robotNum; ++i) {
+            do {
+                int x = random.Next(FIELD_SIZE);
+                int y = random.Next(FIELD_SIZE);
+                if (robots[y, x] == 0) {
+                    robots[y, x] = i;
+                    break;
+                }
+            } while (true);
+        }
         return true;
     }
 
