@@ -224,6 +224,8 @@ public class GameController : MonoBehaviour {
             mTileWallAD
         };
         createWalls(wmaps, offsets);
+        int[,] robots = new int[FIELD_SIZE, FIELD_SIZE];
+        initRobots(robots);
     }
 
     private bool createTiles(int[][,] maps, int[][] offsets) {
@@ -260,25 +262,6 @@ public class GameController : MonoBehaviour {
 
         for (int i = 0; i < originals.Length; ++i) {
             originals[i].SetActive(false);
-        }
-
-        System.Random random = new System.Random();
-        int[,] robots = new int[FIELD_SIZE, FIELD_SIZE];
-        for (int y = 0; y < FIELD_SIZE; ++y) {
-            for (int x = 0; x < FIELD_SIZE; ++x) {
-                robots[y, x] = 0;
-            }
-        }
-        const int robotNum = (int)RobotColor.Max;
-        for (int i = 0; i < robotNum; ++i) {
-            do {
-                int x = random.Next(FIELD_SIZE);
-                int y = random.Next(FIELD_SIZE);
-                if (robots[y, x] == 0) {
-                    robots[y, x] = i;
-                    break;
-                }
-            } while (true);
         }
         return true;
     }
@@ -317,6 +300,28 @@ public class GameController : MonoBehaviour {
         }
 
         original.SetActive(false);
+        return true;
+    }
+
+    private bool initRobots(int [,] robots) {
+        System.Random random = new System.Random();
+        
+        for (int y = 0; y < FIELD_SIZE; ++y) {
+            for (int x = 0; x < FIELD_SIZE; ++x) {
+                robots[y, x] = 0;
+            }
+        }
+        const int robotNum = (int)RobotColor.Max;
+        for (int i = 0; i < robotNum; ++i) {
+            do {
+                int x = random.Next(FIELD_SIZE);
+                int y = random.Next(FIELD_SIZE);
+                if (robots[y, x] == 0) {
+                    robots[y, x] = i;
+                    break;
+                }
+            } while (true);
+        }
         return true;
     }
 
