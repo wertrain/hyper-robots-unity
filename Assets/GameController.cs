@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
     private const int FIELD_SIZE = 8;
 
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour {
     private const int BLHO = 17;
     private const int UU = 18;
 
-    private int[,] mTileMapAA = { 
+    private int[,] mTileMapAA = {
         {   TP,   TP,   TP,   TP,   TP,   TP,   TP,   TP },
         {   TP,   TP,   TP,   TP,   TP,   TP, TBVE,   TP },
         {   TP,   TP,   TP,   TP,   TP,   TP,   TP,   TP },
@@ -194,7 +195,8 @@ public class GameController : MonoBehaviour {
         {   N,   N,   N,   N,   N,   N,   N,   N },
     };
 
-    private enum RobotColor {
+    private enum RobotColor
+    {
         Red = 0,
         Blue,
         Yellow,
@@ -203,7 +205,8 @@ public class GameController : MonoBehaviour {
     };
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         int[][] offsets = new int[4][] {
             new int[] { -75, -75 },
             new int[] { -75,   5 },
@@ -228,7 +231,8 @@ public class GameController : MonoBehaviour {
         initRobots(robots);
     }
 
-    private bool createTiles(int[][,] maps, int[][] offsets) {
+    private bool createTiles(int[][,] maps, int[][] offsets)
+    {
         GameObject[] originals = {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileRedSun"),
@@ -250,9 +254,12 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TileWhite"),
             GameObject.Find("TileUnused")
         };
-        for (int i = 0; i < 4; ++i) {
-            for (int y = 0; y < FIELD_SIZE; ++y) {
-                for (int x = 0; x < FIELD_SIZE; ++x) {
+        for (int i = 0; i < 4; ++i)
+        {
+            for (int y = 0; y < FIELD_SIZE; ++y)
+            {
+                for (int x = 0; x < FIELD_SIZE; ++x)
+                {
                     GameObject copied = Object.Instantiate(originals[maps[i][y, x]]) as GameObject;
                     copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1]);
                     copied.SetActive(true);
@@ -260,36 +267,46 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < originals.Length; ++i) {
+        for (int i = 0; i < originals.Length; ++i)
+        {
             originals[i].SetActive(false);
         }
         return true;
     }
 
-    private bool createWalls(int[][,] maps, int[][] offsets) {
+    private bool createWalls(int[][,] maps, int[][] offsets)
+    {
         GameObject original = GameObject.Find("Wall");
-        for (int i = 0; i < 4; ++i) {
-            for (int y = 0; y < FIELD_SIZE; ++y) {
-                for (int x = 0; x < FIELD_SIZE; ++x) {
-                    if (maps[i][y, x] > N) {                        
-                        if ((maps[i][y, x] & B) > 0) {
+        for (int i = 0; i < 4; ++i)
+        {
+            for (int y = 0; y < FIELD_SIZE; ++y)
+            {
+                for (int x = 0; x < FIELD_SIZE; ++x)
+                {
+                    if (maps[i][y, x] > N)
+                    {
+                        if ((maps[i][y, x] & B) > 0)
+                        {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0] + 5, 0, x * 10 + offsets[i][1]);
                             copied.transform.Rotate(0, 90, 0);
                             copied.SetActive(true);
                         }
-                        if ((maps[i][y, x] & T) > 0) {
+                        if ((maps[i][y, x] & T) > 0)
+                        {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0] - 5, 0, x * 10 + offsets[i][1]);
                             copied.transform.Rotate(0, 90, 0);
                             copied.SetActive(true);
                         }
-                        if ((maps[i][y, x] & L) > 0) {
+                        if ((maps[i][y, x] & L) > 0)
+                        {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1] - 5);
                             copied.SetActive(true);
                         }
-                        if ((maps[i][y, x] & R) > 0) {
+                        if ((maps[i][y, x] & R) > 0)
+                        {
                             GameObject copied = Object.Instantiate(original) as GameObject;
                             copied.transform.Translate(y * 10 + offsets[i][0], 0, x * 10 + offsets[i][1] + 5);
                             copied.SetActive(true);
@@ -303,20 +320,26 @@ public class GameController : MonoBehaviour {
         return true;
     }
 
-    private bool initRobots(int [,] robots) {
+    private bool initRobots(int[,] robots)
+    {
         System.Random random = new System.Random();
-        
-        for (int y = 0; y < FIELD_SIZE; ++y) {
-            for (int x = 0; x < FIELD_SIZE; ++x) {
+
+        for (int y = 0; y < FIELD_SIZE; ++y)
+        {
+            for (int x = 0; x < FIELD_SIZE; ++x)
+            {
                 robots[y, x] = 0;
             }
         }
         const int robotNum = (int)RobotColor.Max;
-        for (int i = 0; i < robotNum; ++i) {
-            do {
+        for (int i = 0; i < robotNum; ++i)
+        {
+            do
+            {
                 int x = random.Next(FIELD_SIZE);
                 int y = random.Next(FIELD_SIZE);
-                if (robots[y, x] == 0) {
+                if (robots[y, x] == 0)
+                {
                     robots[y, x] = i;
                     break;
                 }
@@ -325,33 +348,40 @@ public class GameController : MonoBehaviour {
         return true;
     }
 
-    private class Point {
+    private class Point
+    {
         private int x;
         private int y;
 
-        public Point() {
+        public Point()
+        {
             this.x = 0;
             this.y = 0;
         }
-        public Point(int x, int y) {
+        public Point(int x, int y)
+        {
             this.x = x;
             this.y = y;
         }
-        public int X {
+        public int X
+        {
             get { return this.x; }
             set { this.x = value; }
         }
-        public int Y {
+        public int Y
+        {
             get { return this.y; }
             set { this.y = value; }
         }
     };
-    private Point[] searchRoute(int[][,] maps, int[][,] walls, int[,] robots) {
+    private Point[] searchRoute(int[][,] maps, int[][,] walls, int[,] robots)
+    {
         return null;
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }
